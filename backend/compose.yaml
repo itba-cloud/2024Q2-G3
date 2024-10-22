@@ -1,0 +1,84 @@
+services:
+  create_publication_lambda:
+    develop: 
+      watch:
+        - action: rebuild
+          path: .
+          target: /var/task
+    environment:
+      - AWS_LAMBDA_FUNCTION_NAME=create_publication
+      - DB_HOST=host.docker.internal
+      - DB_NAME=tp-cloud
+      - DB_USER=david
+      - DB_PASSWORD=admin
+    ports:
+      - "9000:8080"  
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    build:
+      context: .
+      args:
+        LAMBDA_FILE: create_publication.py
+
+  create_comment_lambda:
+    develop: 
+      watch:
+        - action: rebuild
+          path: .
+          target: /var/task
+    environment:
+      - AWS_LAMBDA_FUNCTION_NAME=create_comment
+      - DB_HOST=host.docker.internal
+      - DB_NAME=tp-cloud
+      - DB_USER=david
+      - DB_PASSWORD=admin
+    ports:
+      - "9001:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    build:
+      context: .
+      args:
+        LAMBDA_FILE: create_comment.py
+
+  get_comments_lambda:
+    develop: 
+      watch:
+        - action: rebuild
+          path: .
+          target: /var/task
+    environment:
+      - AWS_LAMBDA_FUNCTION_NAME=get_comments
+      - DB_HOST=host.docker.internal
+      - DB_NAME=tp-cloud
+      - DB_USER=david
+      - DB_PASSWORD=admin
+    ports:
+      - "9002:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    build:
+      context: .
+      args:
+        LAMBDA_FILE: get_comments.py
+
+  get_publications_lambda:
+    develop: 
+      watch:
+        - action: rebuild
+          path: .
+          target: /var/task
+    environment:
+      - AWS_LAMBDA_FUNCTION_NAME=get_publications
+      - DB_HOST=host.docker.internal
+      - DB_NAME=tp-cloud
+      - DB_USER=david
+      - DB_PASSWORD=admin
+    ports:
+      - "9003:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    build:
+      context: .
+      args:
+        LAMBDA_FILE: get_publications.py
